@@ -1,0 +1,39 @@
+
+body {
+  background-color: #f4f6f9;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+.app-header {
+  background-color: #0a6ed1;
+  color: white;
+  padding: 0.75rem 1rem;
+}
+.app-title {
+  font-size: 1.5rem;
+}
+.menu-tile {
+  border-radius: 12px;
+  background-color: #ebf3fc;
+  border: 1px solid #c5d9f1;
+  padding: 1.5rem;
+  transition: 0.2s ease-in-out;
+  cursor: pointer;
+}
+.menu-tile:hover {
+  background-color: #d6e7fb;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.footer {
+  background-color: #e0e0e0;
+  color: #555;
+  text-align: center;
+  padding: 0.5rem;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+.icon-btn {
+  background: none;
+  border: none;
+  color: white;
+}

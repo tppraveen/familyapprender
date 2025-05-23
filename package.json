@@ -1,0 +1,27 @@
+{
+  "name": "familyapp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js",
+    "start": "concurrently \"npm run dev\" \"npm run bs\"",
+    "bs": "browser-sync start --config bs-config.js",
+    "dev-only": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "pg": "^8.15.6"
+  },
+  "devDependencies": {
+    "browser-sync": "^3.0.4",
+    "concurrently": "^9.1.2",
+    "nodemon": "^3.1.10"
+  }
+}
