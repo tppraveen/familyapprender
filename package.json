@@ -17,7 +17,8 @@
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "pg": "^8.15.6"
+    "pg": "^8.15.6",
+    "postgres": "^3.4.7"
   },
   "devDependencies": {
     "browser-sync": "^3.0.4",

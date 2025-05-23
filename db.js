@@ -1,13 +1,8 @@
-// db.js
-const { Pool } = require('pg');
+const postgres = require('postgres');
 require('dotenv').config();
 
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASS,
-  port: 5432,
+const sql = postgres(process.env.DATABASE_URL, {
+  ssl: 'require'
 });
 
-module.exports = pool;
+module.exports = sql;

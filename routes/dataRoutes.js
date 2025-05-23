@@ -1,17 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const pool = require('../db');
+const sql = require('../db'); // CommonJS import
 
-// GET all rows
+// GET all users
 router.get('/', async (req, res) => {
- const detailService =  { users: ['User1', 'User2', 'User3'] };
-    res.json(detailService);
-}); 
-// POST new row
-// router.post('/', async (req, res) => {
-//   const { name } = req.body;
-//   const result = await pool.query('INSERT INTO my_table(name) VALUES($1) RETURNING *', [name]);
-//   res.json(result.rows[0]);
-// });
+  try {
+    const users = await sql`SELECT * FROM users`;
+    res.json({ users });
+  } catch (err) {
+    console.error('Error fetching users:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 module.exports = router;
