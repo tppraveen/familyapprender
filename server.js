@@ -29,5 +29,16 @@ app.get('/users', async (req, res) => {
 });
 
 
+router.get('/dbconnectsuccess', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT NOW()');
+    res.json({ success: true, time: result.rows[0].now });
+  } catch (error) {
+    console.error('DB connection test failed:', error);
+    res.status(500).json({ success: false, error: 'Database connection failed' });
+  }
+});
+
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
