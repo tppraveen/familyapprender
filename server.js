@@ -18,12 +18,14 @@ app.get(nodeApiVersion+'/api/data/users',dataRoutes.getAppHomeMenuTiles);
 
 app.get('/users', async (req, res) => {
   try {
-    const users = await sql`SELECT * FROM users`;
-    res.json(users);
-  } catch (err) {
-    console.error('Error fetching users:', err);
-    res.status(500).json({ error: 'Failed to fetch users' });
-  }
+  console.log('Running query...');
+  const users = await sql`SELECT * FROM users`;
+  console.log('Users fetched:', users);
+  res.json(users);
+} catch (err) {
+  console.error('Error fetching users:', err);
+  res.status(500).json({ error: 'Failed to fetch users' });
+}
 });
 
 
