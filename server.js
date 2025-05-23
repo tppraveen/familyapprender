@@ -29,7 +29,7 @@ app.get('/users', async (req, res) => {
 });
 
 
-router.get('/dbconnectsuccess', async (req, res) => {
+app.get('/dbconnectsuccess', async (req, res) => {
   try {
     const result = await pool.query('SELECT NOW()');
     res.json({ success: true, time: result.rows[0].now });
