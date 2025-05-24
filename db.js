@@ -1,22 +1,13 @@
+// db.js
 const { Pool } = require('pg');
 require('dotenv').config();
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  // add ssl if needed, e.g. ssl: { rejectUnauthorized: false }
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASS,
+  port: 6543,
 });
-
-async function testDBConnection() {
-  try {
-    // Run a simple query to test connection
-    const res = await pool.query('SELECT NOW()');
-    console.log('DB Connection successful:', res.rows[0]);
-  } catch (err) {
-    console.error('DB Connection failed:', err);
-  }
-}
-
-// Call the test function on startup
-testDBConnection();
 
 module.exports = pool;

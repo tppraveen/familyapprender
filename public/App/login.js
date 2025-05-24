@@ -5,7 +5,7 @@
             const password = document.getElementById('password').value;
             sessionStorage.setItem("username", username);
             try {
-                const response = await fetch('/dbconnectsuccess', {
+                const response = await fetch('/oData/v1/api/data/users', {
                     method: 'GET',
                     headers: {
                         'X-Username': username,
