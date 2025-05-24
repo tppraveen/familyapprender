@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Expense Manager</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    #loader { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+  </style>
+</head>
+<body>
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Expense Manager</h3>
+    <button class="btn btn-primary" onclick="openAddExpenseModal()">Add Expense</button>
+  </div>
+
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Date/Time</th>
+        <th>Type</th>
+        <th>Category</th>
+        <th>Sub Category</th>
+        <th>Description</th>
+        <th>Payment Mode</th>
+        <th>Amount</th>
+        <th>Flow</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="expenseTableBody"></tbody>
+  </table>
+</div>
+
+<div id="loader">
+  <div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>
+</div>
+
+<!-- Toast Container -->
+<div id="toastContainer" class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999;"></div>
+
+<!-- Modal -->
+<div class="modal fade" id="expenseModal" tabindex="-1" aria-labelledby="expenseModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="expenseModalLabel">Add Transaction</h5>
+        <button type="button" class="btn-close" onclick="closeAddExpenseModal()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="expenseForm">
+          <div class="row g-3">
+            <div class="col-md-3"><label>Date/Time</label><input type="datetime-local" name="transactiontime" class="form-control" required /></div>
+            <div class="col-md-3"><label>Type</label><select name="type" class="form-select" required><option value="">Select</option><option>Expense</option><option>Income</option><option>Transfer</option><option>Loan</option></select></div>
+            <div class="col-md-3"><label>Payment Mode</label><select name="payment_mode" class="form-select"><option>Credit Card</option><option>Debit Card</option><option>UPI</option><option>Cash</option><option>Wallet</option><option>Bank Transfer</option></select></div>
+            <div class="col-md-3"><label>Is Planned?</label><select name="is_planned" class="form-select"><option>Yes</option><option>No</option></select></div>
+            <div class="col-md-3"><label>Category</label><select name="category" id="categorySelect" class="form-select" onchange="loadSubcategories()" required></select></div>
+            <div class="col-md-3"><label>Sub Category</label><select name="subcategory" id="subCategorySelect" class="form-select" required></select></div>
+            <div class="col-md-3"><label>Amount</label><input type="number" name="amount" class="form-control" required /></div>
+            <div class="col-md-3"><label>Payment Status</label><select name="payment_status" class="form-select"><option>Paid</option><option>Not Paid</option></select></div>
+            <div class="col-md-4"><label>Description</label><textarea name="description" class="form-control"></textarea></div>
+            <div class="col-md-2"><label>Impact Saving?</label><select name="impact_saving" class="form-select"><option>Yes</option><option>No</option></select></div>
+            <div class="col-md-2"><label>Cycle</label><select name="cycle" class="form-select"><option>Daily</option><option>Weekly</option><option>Twice Weekly</option><option>Monthly</option><option>Twice Monthly</option></select></div>
+            <div class="col-md-4"><label>Merchant Name</label><input type="text" name="merchant_name" class="form-control" /></div>
+            <div class="col-md-4"><label>With Whom</label><input type="text" name="with_whom" class="form-control" /></div>
+            <div class="col-md-4"><label>Notes</label><input type="text" name="notes" class="form-control" /></div>
+            <div class="col-md-4"><label>Expense Mood</label><select name="expense_mood" class="form-select"><option>💥 Urgent</option><option>👍 Need</option><option>🤔 Not Now</option></select></div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeAddExpenseModal()">Cancel</button>
+        <button type="button" class="btn btn-success" onclick="saveExpense()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="expense-script.js"></script>
+</body>
+</html>
