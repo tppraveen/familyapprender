@@ -1,5 +1,5 @@
 // expense-category.js
-const apiUrl = "http://localhost:3000/oData/v1"; // Replace with your actual backend URL
+const apiUrl = "/oData/v1"; // Replace with your actual backend URL
 let storedUsername=''
 function validateLoginUser(){
     storedUsername = sessionStorage.getItem("username");
