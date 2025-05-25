@@ -5,9 +5,27 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+  
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> 
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 
+  <style>
+    .icon-btn {
+      border: none;color: #ffffff;
+      background: none;
+      cursor: pointer;
+      padding: 0 6px;
+    }
+
+      #alertPlaceholder .alert {
+    min-width: 300px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    opacity: 0.95;
+  }
+  </style>
 
   <title>PRAV APP - Expense Overview</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -50,8 +68,7 @@
   <!-- Body Content -->
   <div class="container-fluid mt-3">
     <div class="row">
-      
- <div id="messageBox"></div>
+       
 
       <!-- Filter & Left Panel -->
       <div class="col-lg-3 mb-3">
@@ -118,11 +135,14 @@
             </button>
           </div>
        
+<div class="position-fixed bottom-0 start-50 translate-middle-x p-3" style="z-index: 1055">
+  <div id="alertPlaceholder"></div>
+</div>
 
 
           <div class="justify-content-start">
             <div class="btn-group">
-              
+               
                
   <button id="addExpenseBtn" type="button" class="btn btn-primary"  ><i class="bi bi-plus-circle"></i>
   Add Expense
@@ -181,21 +201,26 @@
 
         <!-- Table -->
         <div class="table-responsive mb-3">
-          <table class="table table-bordered table-striped align-middle table-sm">
-            <thead class="table-primary">
-              <tr>
-                <th>Date/Time</th>
-                <th>Type</th>
-                <th>Category</th>
-                <th>Sub Category</th>
-                <th>Description</th>
-                <th>Payment Mode</th>
-                <th>Amount</th>
-                <th>Flow</th>
-              </tr>
-            </thead>
-            <tbody id="expenseTableBody"></tbody>
-          </table>
+           <table class="table table-bordered table-hover   table-striped align-middle table-sm" id="expenseTable">
+    <thead class="table-primary">
+      <tr>
+        <th>Date/Time</th>
+        <th>Type</th>
+        <th>Category</th>
+        <th>Sub Category</th>
+        <th>Description</th>
+        <th>Payment Mode</th>
+        <th>Amount</th>
+        <th>Flow</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Filled by JS -->
+    </tbody>
+  </table>
+
+           
         </div>
 
         <!-- Pagination -->
@@ -216,10 +241,18 @@
     Owned by Pravya Group of Enterprises
   </div>
 
+ 
+ 
 
 
-<!-- Add fragment start -->
-  <!-- Add Expense Modal -->
+
+
+
+
+
+
+    
+<!-- Add/Edit Expense Modal -->
 <div class="modal fade" id="expenseModal" tabindex="-1" aria-labelledby="expenseModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
@@ -229,6 +262,7 @@
       </div>
       <div class="modal-body">
         <form id="expenseForm">
+          <input type="hidden" name="id" />
           <div class="row g-3">
             <!-- Date/Time -->
             <div class="col-md-3">
@@ -258,7 +292,7 @@
                 <option>Bank Transfer</option>
               </select>
             </div>
-               <!-- Is Planned -->
+            <!-- Is Planned -->
             <div class="col-md-3">
               <label>Is Planned?</label>
               <select name="is_planned" class="form-select">
@@ -266,22 +300,20 @@
                 <option>No</option>
               </select>
             </div>
-
             <!-- Category -->
             <div class="col-md-3">
               <label>Category</label>
-              <select name="category" id="categorySelect" class="form-select" required ></select>
+              <select name="category" id="categorySelect" class="form-select" required></select>
             </div>
-
             <!-- Sub Category -->
             <div class="col-md-3">
               <label>Sub Category</label>
               <select name="sub_category" id="subCategorySelect" class="form-select" required></select>
             </div>
-  <!-- Amount -->
+            <!-- Amount -->
             <div class="col-md-3">
               <label>Amount</label>
-              <input type="number" name="amount" class="form-control" required />
+              <input type="number" step="0.01" name="amount" class="form-control" required />
             </div>
             <!-- Payment Status -->
             <div class="col-md-3">
@@ -291,14 +323,11 @@
                 <option>Not Paid</option>
               </select>
             </div>
-
             <!-- Description -->
             <div class="col-md-4">
               <label>Description</label>
               <textarea name="description" class="form-control"></textarea>
             </div>
-
-          
             <!-- Impact Saving -->
             <div class="col-md-2">
               <label>Impact Saving?</label>
@@ -307,7 +336,6 @@
                 <option>No</option>
               </select>
             </div>
-
             <!-- Cycle -->
             <div class="col-md-2">
               <label>Cycle</label>
@@ -319,28 +347,21 @@
                 <option>Twice Monthly</option>
               </select>
             </div>
-
-
             <!-- Merchant Name -->
             <div class="col-md-4">
               <label>Merchant Name</label>
               <input type="text" name="merchant_name" class="form-control" />
             </div>
-
-         
-
             <!-- With Whom -->
             <div class="col-md-4">
               <label>With Whom</label>
               <input type="text" name="with_whom" class="form-control" />
             </div>
-
             <!-- Notes -->
             <div class="col-md-4">
               <label>Notes</label>
               <input type="text" name="notes" class="form-control" />
             </div>
-
             <!-- Expense Mood -->
             <div class="col-md-4">
               <label>Expense Mood</label>
@@ -353,7 +374,6 @@
           </div>
         </form>
       </div>
-
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" id="CloseAddExpenseBtn2">Cancel</button>
         <button type="button" class="btn btn-success" id="saveExpenseBtn">Save</button>
@@ -363,158 +383,14 @@
 </div>
 
 
-<!-- add fragment end here -->
+<!-- Add/Edit Expense ended here -->
 
 
-<!-- edit fragment strat here -->
- 
-<!-- Add Transaction Modal -->
- 
- 
-<!-- Edit Transaction Modal -->
-  <!-- Add Expense Modal -->
-<div class="modal fade" id="EditExpenseModal" tabindex="-1" aria-labelledby="expenseModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="expenseModalLabel">Edit Transaction</h5>
-        <button id="CloseEditExpenseBtn" type="button" class="btn-close"  aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="expenseEditForm">
-          <div class="row g-3">
-            <!-- Date/Time -->
-            <div class="col-md-3">
-              <label>Date/Time</label>
-              <input type="datetime-local" name="datetime" class="form-control" required />
-            </div>
-            <!-- Type -->
-            <div class="col-md-3">
-              <label>Type</label>
-              <select name="type" class="form-select" required>
-                <option value="">Select</option>
-                <option>Expense</option>
-                <option>Income</option>
-                <option>Transfer</option>
-                <option>Loan</option>
-              </select>
-            </div>
-            <!-- Payment Mode -->
-            <div class="col-md-3">
-              <label>Payment Mode</label>
-              <select name="payment_mode" class="form-select" required>
-                <option>Credit Card</option>
-                <option>Debit Card</option>
-                <option>UPI</option>
-                <option>Cash</option>
-                <option>Wallet</option>
-                <option>Bank Transfer</option>
-              </select>
-            </div>
-               <!-- Is Planned -->
-            <div class="col-md-3">
-              <label>Is Planned?</label>
-              <select name="is_planned" class="form-select">
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-              </select>
-            </div>
-
-            <!-- Category -->
-            <div class="col-md-3">
-              <label>Category</label>
-              <select name="category" id="categorySelect2" class="form-select" required ></select>
-            </div>
-
-            <!-- Sub Category -->
-            <div class="col-md-3">
-              <label>Sub Category</label>
-              <select name="sub_category" id="subCategorySelect2" class="form-select" required></select>
-            </div>
-  <!-- Amount -->
-            <div class="col-md-3">
-              <label>Amount</label>
-              <input type="number" name="amount" class="form-control" required />
-            </div>
-            <!-- Payment Status -->
-            <div class="col-md-3">
-              <label>Payment Status</label>
-              <select name="payment_status" class="form-select">
-                <option>Paid</option>
-                <option>Not Paid</option>
-              </select>
-            </div>
-
-            <!-- Description -->
-            <div class="col-md-4">
-              <label>Description</label>
-              <textarea name="description" class="form-control"></textarea>
-            </div>
-
-          
-            <!-- Impact Saving -->
-            <div class="col-md-2">
-              <label>Impact Saving?</label>
-              <select name="impact_saving" class="form-select">
-                <option>Yes</option>
-                <option>No</option>
-              </select>
-            </div>
-
-            <!-- Cycle -->
-            <div class="col-md-2">
-              <label>Cycle</label>
-              <select name="cycle" class="form-select">
-                <option>Daily</option>
-                <option>Weekly</option>
-                <option>Twice Weekly</option>
-                <option>Monthly</option>
-                <option>Twice Monthly</option>
-              </select>
-            </div>
 
 
-            <!-- Merchant Name -->
-            <div class="col-md-4">
-              <label>Merchant Name</label>
-              <input type="text" name="merchant_name" class="form-control" />
-            </div>
 
-         
 
-            <!-- With Whom -->
-            <div class="col-md-4">
-              <label>With Whom</label>
-              <input type="text" name="with_whom" class="form-control" />
-            </div>
 
-            <!-- Notes -->
-            <div class="col-md-4">
-              <label>Notes</label>
-              <input type="text" name="notes" class="form-control" />
-            </div>
-
-            <!-- Expense Mood -->
-            <div class="col-md-4">
-              <label>Expense Mood</label>
-              <select name="expense_mood" class="form-select">
-                <option>💥 Urgent</option>
-                <option>👍 Need</option>
-                <option>🤔 Not Now</option>
-              </select>
-            </div>
-          </div>
-        </form>
-      </div>
-
-      <div class="modal-footer">
-        <button id="CloseEditExpenseBtn2" type="button" class="btn btn-secondary" >Cancel</button>
-        <button type="button" class="btn btn-success" onclick="saveExpense()">Save</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- edit fragment end here -->
 
 </body>
 

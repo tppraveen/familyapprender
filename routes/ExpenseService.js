@@ -75,9 +75,10 @@ router.readExpenseByID = async (req, res) => {
 
 
 router.insertExpense = async (req, res) => {
-           const username = req.headers['x-username'];
+           //const username = req.headers['x-username'];
   try {
     const {
+      id,
       datetime,
       type,
       payment_mode,
@@ -92,13 +93,16 @@ router.insertExpense = async (req, res) => {
       merchant_name,
       with_whom,
       notes,
-      expense_mood
+      expense_mood,
+      username
     } = req.body;
+console.log(req.body)
+  console.log(datetime +"--"+ type +"--"+ amount  +"--"+ category +"--"+ username)
 
     if (!datetime || !type || !amount || !category || !username) {
       return response.error(res, 400, 'Required fields are missing.');
     }
-
+    
     // Determine flow
     let flow;
     if (type.toLowerCase() === 'expense') flow = 'Debit';
